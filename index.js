@@ -25,6 +25,17 @@ app.post('/tracker', async (req, res) => {
     }
 });
 
+app.get('/track-history', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM tracking_data ORDER BY time DESC');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching data');
+    }
+});
+
+
 app.listen(7700, () => {
     console.log('Server is running on port 7700');
 });
